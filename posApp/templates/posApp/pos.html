@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-lg-4 col-md-2 col-md-12">
                         <div class="form-group mb-3">
-                            <button class="btn btn-light btn-sm bg-gradient border rounded-0 text-start" type="button" id="add_item"><i class="mdi mdi-plus"></i> Adicionar Item</button>
+                            <button class="btn btn-primary btn-sm bg-gradient border rounded-0 text-start" type="button" id="add_item"><i class="mdi mdi-plus"></i> Adicionar Item</button>
                         </div>
                     </div>
 
@@ -94,7 +94,7 @@
             </fieldset>
             <div class="row">
                 <div class="col-md-12 text-end">
-                    <button class="btn btn-primary btn-sm rounded-0" type="button" id="check_out"><i class="mdi mdi-save"></i> Confirmar</button>
+                    <button class="btn btn-success btn-sm rounded-0" type="button" id="check_out"><i class="mdi mdi-save"></i> Confirmar</button>
                 </div>
             </div>
         </form>
@@ -144,10 +144,11 @@
         tax = $('[name="tax"]').val()
         tax = tax / 100;
         var tax_amount = parseFloat(sub_total) * parseFloat(tax);
-        $('#tax_amount').text('R$ '+parseFloat(tax_amount).toLocaleString('pt-BR'))
-        $('[name="tax_amount"]').val(parseFloat(tax_amount))
-        $('#grand_total').text('R$ '+parseFloat(sub_total).toLocaleString('pt-BR'))
-        $('[name="grand_total"]').val(parseFloat(sub_total))
+        var tax_amount_rounded = tax_amount.toFixed(2);
+        $('#tax_amount').text('R$ '+parseFloat(tax_amount_rounded).toLocaleString('pt-BR'))
+        $('[name="tax_amount"]').val(parseFloat(tax_amount_rounded))
+        $('#grand_total').text('R$ '+parseFloat(sub_total+tax_amount).toFixed(2).toLocaleString('pt-BR'))
+        $('[name="grand_total"]').val(parseFloat(sub_total+tax_amount).toFixed(2))
         $('#sub_total').text('R$ '+parseFloat(sub_total).toLocaleString('pt-BR'))
         $('[name="sub_total"]').val(parseFloat(sub_total))
 

@@ -59,12 +59,13 @@ def home(request):
         date_added__day = current_day
     ).all()
     total_sales = sum(today_sales.values_list('grand_total',flat=True))
+    rounded_value = round(total_sales, 2)
     context = {
         'page_title':'Home',
         'categories' : categories,
         'products' : products,
         'transaction' : transaction,
-        'total_sales' : total_sales,
+        'total_sales' : rounded_value,
     }
     return render(request, 'posApp/home.html',context)
 
