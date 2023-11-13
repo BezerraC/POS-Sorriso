@@ -14,7 +14,7 @@
                         <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">home</i> Home
                     </a>
                 </div>
-                {% if user.first_name != "Administrador" %}
+                {% if user.is_admin %}
                 <div ></div> 
                 {% else %}   
                 <div class="mdc-list-item mdc-drawer-item">
@@ -24,7 +24,7 @@
                 </div>
                 {% endif %}  
 
-                {% if user.first_name != "Administrador" %}
+                {% if user.is_admin %}
                 <div ></div> 
                 {% else %}   
                 <div class="mdc-list-item mdc-drawer-item">
@@ -39,7 +39,7 @@
                         <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">payment</i> Ponto De Venda
                     </a>
                 </div>
-                {% if user.first_name != "Administrador" %}
+                {% if user.is_admin %}
                 <div ></div> 
                 {% else %}   
                 <div class="mdc-list-item mdc-drawer-item">
