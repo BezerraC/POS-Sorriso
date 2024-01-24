@@ -1,5 +1,6 @@
 import json
 import sys
+import traceback
 from datetime import date, datetime
 from pickle import FALSE
 
@@ -7,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Sum
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
 from posApp.models import Category, Products, Sales, salesItems
@@ -104,30 +105,36 @@ def manage_category(request):
 
 @login_required
 def save_category(request):
-    data =  request.POST
-    resp = {'status':'failed'}
+    data = request.POST
+    resp = {'status': 'failed'}
     try:
-        if (data['id']).isnumeric() and int(data['id']) > 0 :
-            save_category = Category.objects.filter(id = data['id']).update(name=data['name'], description = data['description'],status = data['status'])
+        if (data['id']).isnumeric() and int(data['id']) > 0:
+            save_category = Category.objects.filter(id=data['id']).update(name=data['name'], description=data['description'], status=data['status'])
         else:
-            save_category = Category(name=data['name'], description = data['description'],status = data['status'])
+            save_category = Category(name=data['name'], description=data['description'], status=data['status'])
             save_category.save()
         resp['status'] = 'success'
         messages.success(request, 'Categoria salva com sucesso.')
-    except:
+    except Exception as e:
         resp['status'] = 'failed'
+        resp['error_message'] = str(e) 
+        print(f"Error in save_category: {e}")
+    #print(f"Response from save_category: {resp}")
     return HttpResponse(json.dumps(resp), content_type="application/json")
 
 @login_required
 def delete_category(request):
-    data =  request.POST
-    resp = {'status':''}
+    data = request.POST
+    resp = {'status': 'failed'}
     try:
-        Category.objects.filter(id = data['id']).delete()
+        Category.objects.filter(id=data['id']).delete()
         resp['status'] = 'success'
         messages.success(request, 'Categoria excluída com sucesso.')
-    except:
+    except Exception as e:
         resp['status'] = 'failed'
+        resp['error_message'] = str(e) 
+        print(f"Error in delete_category: {e}")
+    #print(f"Response from delete_category: {resp}")
     return HttpResponse(json.dumps(resp), content_type="application/json")
 
 # Products
@@ -136,7 +143,7 @@ def products(request):
     product_list = Products.objects.all()
     context = {
         'page_title':'Lista de Produtos',
-        'products':product_list,
+        'products':product_list, 
     }
     return render(request, 'posApp/products.html',context)
 @login_required
@@ -164,29 +171,38 @@ def test(request):
     return render(request, 'posApp/test.html',context)
 @login_required
 def save_product(request):
-    data =  request.POST
-    resp = {'status':'failed'}
-    id= ''
+    data = request.POST
+    resp = {'status': 'failed'}
+    id = ''
     if 'id' in data:
         id = data['id']
     if id.isnumeric() and int(id) > 0:
         check = Products.objects.exclude(id=id).filter(code=data['code']).all()
     else:
         check = Products.objects.filter(code=data['code']).all()
-    if len(check) > 0 :
+    if len(check) > 0:
         resp['msg'] = "O código do produto já existe no banco de dados"
     else:
-        category = Category.objects.filter(id = data['category_id']).first()
+        category = Category.objects.filter(id=data['category_id']).first()
         try:
-            if (data['id']).isnumeric() and int(data['id']) > 0 :
-                save_product = Products.objects.filter(id = data['id']).update(code=data['code'], category_id=category, name=data['name'], description = data['description'], price = float(data['price']),status = data['status'])
+            if (data['id']).isnumeric() and int(data['id']) > 0:
+                save_product = Products.objects.filter(id=data['id']).update(
+                    code=data['code'], category_id=category, name=data['name'], description=data['description'],
+                    price=float(data['price']), status=data['status']
+                )
             else:
-                save_product = Products(code=data['code'], category_id=category, name=data['name'], description = data['description'], price = float(data['price']),status = data['status'])
+                save_product = Products(
+                    code=data['code'], category_id=category, name=data['name'], description=data['description'],
+                    price=float(data['price']), status=data['status']
+                )
                 save_product.save()
             resp['status'] = 'success'
             messages.success(request, 'Produto salvo com sucesso.')
-        except:
+        except Exception as e:
             resp['status'] = 'failed'
+            resp['error_message'] = str(e) 
+            print(f"Error in save_product: {e}")
+    #print(f"Response from save_product: {resp}")
     return HttpResponse(json.dumps(resp), content_type="application/json")
 
 @login_required
