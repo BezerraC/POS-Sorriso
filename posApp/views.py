@@ -68,14 +68,14 @@ def home(request):
         'transaction' : transaction,
         'total_sales' : rounded_value,
     }
-    return render(request, 'posApp/home.html',context)
+    return render(request, 'pages/home.html',context)
 
 
 def about(request):
     context = {
         'page_title':'About',
     }
-    return render(request, 'posApp/about.html',context)
+    return render(request, 'pages/about.html',context)
 
 #Categories
 @login_required
@@ -86,7 +86,7 @@ def category(request):
         'page_title':'Lista de Categorias',
         'category':category_list,
     }
-    return render(request, 'posApp/category.html',context)
+    return render(request, 'pages/category.html',context)
 @login_required
 def manage_category(request):
     category = {}
@@ -101,7 +101,7 @@ def manage_category(request):
     context = {
         'category' : category
     }
-    return render(request, 'posApp/manage_category.html',context)
+    return render(request, 'pages/manage_category.html',context)
 
 @login_required
 def save_category(request):
@@ -145,7 +145,7 @@ def products(request):
         'page_title':'Lista de Produtos',
         'products':product_list, 
     }
-    return render(request, 'posApp/products.html',context)
+    return render(request, 'pages/products.html',context)
 @login_required
 def manage_products(request):
     product = {}
@@ -162,13 +162,13 @@ def manage_products(request):
         'product' : product,
         'categories' : categories
     }
-    return render(request, 'posApp/manage_product.html',context)
+    return render(request, 'pages/manage_product.html',context)
 def test(request):
     categories = Category.objects.all()
     context = {
         'categories' : categories
     }
-    return render(request, 'posApp/test.html',context)
+    return render(request, 'pages/test.html',context)
 @login_required
 def save_product(request):
     data = request.POST
@@ -228,7 +228,7 @@ def pos(request):
         'product_json' : json.dumps(product_json)
     }
     # return HttpResponse('')
-    return render(request, 'posApp/pos.html',context)
+    return render(request, 'pages/pos.html',context)
 
 @login_required
 def checkout_modal(request):
@@ -238,7 +238,7 @@ def checkout_modal(request):
     context = {
         'grand_total' : grand_total,
     }
-    return render(request, 'posApp/checkout.html',context)
+    return render(request, 'pages/checkout.html',context)
 
 @login_required
 def save_pos(request):
@@ -297,7 +297,7 @@ def salesList(request):
         'sale_data':sale_data,
     }
     # return HttpResponse('')
-    return render(request, 'posApp/sales.html',context)
+    return render(request, 'pages/sales.html',context)
 
 @login_required
 def receipt(request):
@@ -315,7 +315,7 @@ def receipt(request):
         "salesItems" : ItemList
     }
 
-    return render(request, 'posApp/receipt.html',context)
+    return render(request, 'pages/receipt.html',context)
     # return HttpResponse('')
 
 @login_required
