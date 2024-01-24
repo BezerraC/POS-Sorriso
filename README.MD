@@ -10,7 +10,7 @@
 
 > This project is a point of sale (POS) system developed in Django, including features such as product, category, sales and receipt management. POS offers essential functionalities to facilitate commercial operations, from product registration to sales completion, providing a comprehensive solution for commercial establishments.
 
-[View the project dployed](https://sorriso.vercel.app)
+[View the project dployed](https://point-of-sale-theta.vercel.app/)
 
 ## 💻 Prerequisites
 
